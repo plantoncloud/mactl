@@ -1,0 +1,30 @@
+package protobuf
+
+import (
+	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
+	"github.com/plantoncloud/mactl/internal/installer/brew"
+)
+
+const (
+	Name    = "protobuf"
+	BrewPkg = "protobuf"
+)
+
+func Setup() error {
+	log.Infof("installing %s", Name)
+	if err := brew.Install(BrewPkg); err != nil {
+		return errors.Wrapf(err, "failed to install %s", Name)
+	}
+	log.Infof("installed %s", Name)
+	return nil
+}
+
+func Upgrade() error {
+	log.Infof("upgrading %s", Name)
+	if err := brew.Upgrade(BrewPkg); err != nil {
+		return errors.Wrapf(err, "failed to upgrade %s", Name)
+	}
+	log.Infof("upgraded %s", Name)
+	return nil
+}

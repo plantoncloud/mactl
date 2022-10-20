@@ -1,0 +1,6 @@
+.idea
+bin
+tmp
+build
+!internal/app/build
+!internal/bundle/build
