@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"fmt"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
 	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
@@ -11,6 +10,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/keyboard/karabiner"
 	"github.com/plantoncloud/mactl/internal/app/keyboard/rectangle"
 	"github.com/plantoncloud/mactl/internal/app/tool/flycut"
+	"github.com/plantoncloud/mactl/internal/app/tool/mactl"
 	"github.com/plantoncloud/mactl/internal/bundle/build"
 	"github.com/plantoncloud/mactl/internal/bundle/build/scm"
 	"github.com/plantoncloud/mactl/internal/bundle/comm"
@@ -18,6 +18,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/bundle/tool"
 	"github.com/plantoncloud/mactl/internal/git/ssh"
 	"github.com/plantoncloud/mactl/internal/optimize/dock"
+	log "github.com/sirupsen/logrus"
 )
 
 func Checklist() {
@@ -87,7 +88,10 @@ func ensure(fatalErrors chan error) error {
 
 	log.Info("ensuring installers")
 	if err := mas.Setup(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to setup installers")
+		fatalErrors <- errors.Wrap(err, "failed to setup mas")
+	}
+	if err := mactl.Setup(); err != nil {
+		fatalErrors <- errors.Wrap(err, "failed to setup mactl")
 	}
 	log.Info("ensured installers")
 

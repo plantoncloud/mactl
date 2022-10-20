@@ -1,4 +1,4 @@
-package step
+package mactl
 
 import (
 	"github.com/pkg/errors"
@@ -7,24 +7,23 @@ import (
 )
 
 const (
-	BrewPkg = "step"
+	BrewPkg = "plantoncloud/homebrew-tap/mactl"
 )
 
 func Setup() error {
-	log.Info("installing step")
-	if err :=
-		brew.Install(BrewPkg); err != nil {
+	log.Info("installing mactl")
+	if err := brew.Install(BrewPkg); err != nil {
 		return errors.Wrapf(err, "failed to install %s pkg using brew", BrewPkg)
 	}
-	log.Info("installed step")
+	log.Info("installed mactl")
 	return nil
 }
 
 func Upgrade() error {
-	log.Info("upgrading step")
+	log.Info("upgrading mactl")
 	if err := brew.Upgrade(BrewPkg); err != nil {
 		return errors.Wrapf(err, "failed to upgrade %s pkg using brew", BrewPkg)
 	}
-	log.Info("upgraded step")
+	log.Info("upgraded mactl")
 	return nil
 }

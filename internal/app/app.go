@@ -21,6 +21,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/tidy/menubar/bartender"
 	"github.com/plantoncloud/mactl/internal/app/tidy/menubar/toothfairy"
 	"github.com/plantoncloud/mactl/internal/app/tool/flycut"
+	"github.com/plantoncloud/mactl/internal/app/tool/mactl"
 	"github.com/plantoncloud/mactl/internal/app/tool/sleep_control_center"
 	"github.com/plantoncloud/mactl/internal/app/tool/snagit"
 )
@@ -29,32 +30,52 @@ type App string
 
 const (
 	bartenderApp          App = "bartender"
+	battenbergApp         App = "battenberg"
 	chromeApp             App = "chrome"
+	dnsmasqApp            App = "dnsmasq"
 	dockerApp             App = "docker"
 	flycutApp             App = "flycut"
 	githubApp             App = "github"
 	gitrApp               App = "gitr"
 	itermApp              App = "iterm"
+	javaApp               App = "java"
 	karabinerApp          App = "karabiner"
 	krispApp              App = "krisp"
+	mactlApp              App = "mactl"
 	masApp                App = "mas"
-	telnetApp             App = "telnet"
 	rectangleApp          App = "rectangle"
 	shushApp              App = "shush"
 	sleepControlCenterApp App = "sleep-control-center"
 	snagitApp             App = "snagit"
+	telnetApp             App = "telnet"
 	toothFairyApp         App = "tooth-fairy"
-	battenbergApp         App = "battenberg"
-	dnsmasqApp            App = "dnsmasq"
-	javaApp               App = "java"
 	INVALID               App = "invalid"
 )
 
 func Get(app string) App {
 	switch app {
-	case "bartender", "chrome", "docker", "flycut", "github", "gitr", "iterm", "karabiner",
-		"keyboard-maestro", "krisp", "mas", "telnet", "rectangle", "shush", "sleep-control-center",
-		"snagit", "tooth-fairy", "battenberg", "dnsmasq", "java":
+	case
+		"bartender",
+		"battenberg",
+		"chrome",
+		"dnsmasq",
+		"docker",
+		"flycut",
+		"github",
+		"gitr",
+		"iterm",
+		"java",
+		"karabiner",
+		"keyboard-maestro",
+		"krisp",
+		"mactl",
+		"mas",
+		"rectangle",
+		"shush",
+		"sleep-control-center",
+		"snagit",
+		"telnet",
+		"tooth-fairy":
 		return App(app)
 	}
 	return INVALID
@@ -65,9 +86,28 @@ func (e App) IsInvalid() bool {
 }
 
 func PrintList() {
-	apps := []App{bartenderApp, chromeApp, dockerApp, flycutApp, githubApp,
-		gitrApp, itermApp, karabinerApp, krispApp, masApp, telnetApp, rectangleApp, shushApp,
-		sleepControlCenterApp, snagitApp, toothFairyApp, battenbergApp, dnsmasqApp, javaApp}
+	apps := []App{
+		bartenderApp,
+		battenbergApp,
+		chromeApp,
+		dnsmasqApp,
+		dockerApp,
+		flycutApp,
+		githubApp,
+		gitrApp,
+		itermApp,
+		javaApp,
+		karabinerApp,
+		krispApp,
+		mactlApp,
+		masApp,
+		rectangleApp,
+		shushApp,
+		sleepControlCenterApp,
+		snagitApp,
+		telnetApp,
+		toothFairyApp,
+	}
 	header := table.Row{"#", "name"}
 	rows := make([]table.Row, 0)
 	for index, app := range apps {
@@ -102,6 +142,8 @@ func Add(app App) error {
 		return nil
 	case krispApp:
 		return krisp.Setup()
+	case mactlApp:
+		return mactl.Setup()
 	case masApp:
 		return mas.Setup()
 	case telnetApp:
