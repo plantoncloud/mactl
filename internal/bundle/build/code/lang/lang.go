@@ -8,6 +8,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/javascript/nodejs"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/python"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/sql"
+	"github.com/plantoncloud/mactl/internal/app/build/code/lang/swift"
 	"github.com/plantoncloud/mactl/internal/app/build/scm/battenberg"
 	log "github.com/sirupsen/logrus"
 )
@@ -43,25 +44,30 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure sql")
 	}
 	log.Info("ensured sql")
+	log.Info("ensuring swift")
+	if err := swift.Setup(); err != nil {
+		return errors.Wrap(err, "failed to ensure swift")
+	}
+	log.Info("ensured swift")
 	return nil
 }
 
 func Upgrade() error {
 	log.Info("upgrading golang")
 	if err := golang.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill golang")
+		return errors.Wrap(err, "failed to upgrade golang")
 	}
 	log.Info("upgraded golang")
 
 	log.Info("upgrading nodejs")
 	if err := nodejs.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill nodejs")
+		return errors.Wrap(err, "failed to upgrade nodejs")
 	}
 	log.Info("upgraded nodejs")
 
 	log.Info("upgrading python")
 	if err := python.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill python")
+		return errors.Wrap(err, "failed to upgrade python")
 	}
 	log.Info("upgraded python")
 

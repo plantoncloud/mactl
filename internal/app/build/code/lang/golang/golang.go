@@ -2,10 +2,10 @@ package golang
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/golang/goland"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/golang/protoc/plugin"
 	"github.com/plantoncloud/mactl/internal/installer/brew"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
@@ -34,7 +34,7 @@ func Setup() error {
 func Upgrade() error {
 	err := brew.Upgrade(BrewPkg)
 	if err != nil {
-		return errors.Wrapf(err, "failed to fulfill %s brew pkg", BrewPkg)
+		return errors.Wrapf(err, "failed to upgrade %s brew pkg", BrewPkg)
 	}
 	return nil
 }

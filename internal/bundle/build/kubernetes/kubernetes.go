@@ -72,37 +72,37 @@ func Setup() error {
 func Upgrade() error {
 	log.Info("upgrading kubectl")
 	if err := kubectl.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill kubectl")
+		return errors.Wrapf(err, "failed to upgrade kubectl")
 	}
 	log.Info("upgraded kubectl")
 
 	log.Info("upgrading kubectx")
 	if err := kubectx.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill kubectx")
+		return errors.Wrapf(err, "failed to upgrade kubectx")
 	}
 	log.Info("upgraded kubectx")
 
 	log.Info("upgrading helm")
 	if err := helm.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill helm")
+		return errors.Wrapf(err, "failed to upgrade helm")
 	}
 	log.Info("upgraded helm")
 
 	log.Info("upgrading stern")
 	if err := stern.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill stern")
+		return errors.Wrapf(err, "failed to upgrade stern")
 	}
 	log.Info("upgraded stern")
 
 	log.Info("upgrading tilt")
 	if err := tilt.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill tilt")
+		return errors.Wrapf(err, "failed to upgrade tilt")
 	}
 	log.Info("upgraded tilt")
 
 	log.Info("upgrading linkerd")
 	if err := linkerd.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill linkerd")
+		return errors.Wrapf(err, "failed to upgrade linkerd")
 	}
 	log.Info("upgraded linkerd")
 	return nil

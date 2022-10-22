@@ -18,21 +18,17 @@ const (
 )
 
 func Upgrade() error {
-	log.Info("bootstrap fulfill started")
+	log.Info("bootstrap upgrade started")
 
 	done := make(chan bool)
 	fatalErrors := make(chan error)
 
-	if err := fulfill(fatalErrors); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to ensure fulfill all bootstrap components")
+	if err := upgrade(fatalErrors); err != nil {
+		fatalErrors <- errors.Wrap(err, "failed to ensure upgrade all bootstrap components")
 	}
 
 	if err := open(fatalErrors); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to open all apps installed as part of bootstrap fulfill")
-	}
-
-	if err := postOpen(fatalErrors); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to run post open steps as part of bootstrap fulfill")
+		fatalErrors <- errors.Wrap(err, "failed to open all apps installed as part of bootstrap upgrade")
 	}
 
 	close(done)
@@ -45,11 +41,11 @@ func Upgrade() error {
 		return err
 	}
 
-	log.Info("bootstrap fulfill completed")
+	log.Info("bootstrap upgrade completed")
 	return nil
 }
 
-func fulfill(fatalErrors chan error) error {
+func upgrade(fatalErrors chan error) error {
 	log.Info("optimizing dock")
 	if err := dock.Optimize(); err != nil {
 		fatalErrors <- errors.Wrap(err, "failed to optimize dock")
@@ -58,43 +54,43 @@ func fulfill(fatalErrors chan error) error {
 
 	log.Info("upgrading installers")
 	if err := mas.UpgradeMas(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill installers")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade installers")
 	}
 	log.Info("upgraded installers")
 
 	log.Info("upgrading hotkey")
 	if err := hotkey.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill hotkey")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade hotkey")
 	}
 	log.Info("upgraded hotkey")
 
 	log.Info("upgrading window-management")
 	if err := rectangle.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill window management using rectangle app")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade window management using rectangle app")
 	}
 	log.Info("upgraded window-management")
 
 	log.Info("upgrading browser")
 	if err := chrome.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill browser")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade browser")
 	}
 	log.Info("upgraded browser")
 
 	log.Info("upgrading terminal")
 	if err := iterm.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill scm")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade scm")
 	}
 	log.Info("upgraded terminal")
 
 	log.Info("upgrading tool bundle")
 	if err := tool.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill tool bundle")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade tool bundle")
 	}
 	log.Info("upgraded tool bundle")
 
 	log.Info("upgrading build bundle")
 	if err := build.Upgrade(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to fulfill ides")
+		fatalErrors <- errors.Wrap(err, "failed to upgrade ides")
 	}
 	log.Info("upgraded build bundle")
 	return nil

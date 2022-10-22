@@ -44,13 +44,13 @@ func Setup() error {
 func Upgrade() error {
 	log.Infof("upgrading gitr")
 	if err := gitr.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill gitr")
+		return errors.Wrap(err, "failed to upgrade gitr")
 	}
 	log.Infof("upgraded gitr")
 
 	log.Infof("upgrading github-desktop")
 	if err := github.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill github desktop")
+		return errors.Wrap(err, "failed to upgrade github desktop")
 	}
 	log.Infof("upgraded github-desktop")
 	return nil

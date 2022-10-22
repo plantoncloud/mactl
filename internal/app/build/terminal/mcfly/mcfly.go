@@ -4,7 +4,10 @@ package mcfly
 import (
 	"github.com/pkg/errors"
 	"github.com/plantoncloud/mactl/internal/installer/brew"
+	"github.com/plantoncloud/mactl/internal/lib/shell"
 	log "github.com/sirupsen/logrus"
+	"os/exec"
+	"runtime"
 )
 
 const (
@@ -12,6 +15,12 @@ const (
 )
 
 func Setup() error {
+	if runtime.GOARCH == "arm64" {
+		log.Info("installing rosetta required for mcfly software to run on apple silicon")
+		if err := shell.RunCmd(exec.Command("softwareupdate", "--install-rosetta")); err != nil {
+			return errors.Wrapf(err, "failed to install rosetta required by mcfly")
+		}
+	}
 	log.Info("installing mcfly")
 	if err := brew.Install(BrewPkg); err != nil {
 		return errors.Wrap(err, "failed to install mcfly")

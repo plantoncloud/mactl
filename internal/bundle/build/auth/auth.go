@@ -32,7 +32,7 @@ func Upgrade() error {
 	for _, app := range Apps {
 		log.Infof("upgrading %s", app.Name)
 		if err := brew.Upgrade(app.BrewPkg); err != nil {
-			return errors.Wrapf(err, "failed to fulfill %s pkg using brew", app.BrewPkg)
+			return errors.Wrapf(err, "failed to upgrade %s pkg using brew", app.BrewPkg)
 		}
 		log.Infof("upgraded %s", app.Name)
 	}
