@@ -60,19 +60,19 @@ func GetBinDir() (string, error) {
 func Upgrade() error {
 	log.Info("upgrading flycut")
 	if err := flycut.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill flycut")
+		return errors.Wrap(err, "failed to upgrade flycut")
 	}
 	log.Info("upgraded flycut")
 
 	log.Info("upgrading flux")
 	if err := flux.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill flux")
+		return errors.Wrap(err, "failed to upgrade flux")
 	}
 	log.Info("upgraded flux")
 
 	log.Info("upgrading snagit")
 	if err := snagit.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill snagit")
+		return errors.Wrap(err, "failed to upgrade snagit")
 	}
 	log.Info("upgraded snagit")
 

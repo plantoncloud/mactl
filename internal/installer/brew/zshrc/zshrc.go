@@ -14,9 +14,10 @@ func Get() string {
 }
 
 func addEnvVars(zb *strings.Builder) {
-	if runtime.GOARCH == "arm64" {
-		zb.WriteString("\n")
-		zb.WriteString("export PATH=\"$PATH:/opt/homebrew/bin\"")
-		zb.WriteString("\n")
+	if runtime.GOARCH != "arm64" {
+		return
 	}
+	zb.WriteString("\n")
+	zb.WriteString("export PATH=\"$PATH:/opt/homebrew/bin\"")
+	zb.WriteString("\n")
 }

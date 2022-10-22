@@ -2,9 +2,9 @@ package cloud
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/app/build/cloud/awscli"
 	"github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud"
+	log "github.com/sirupsen/logrus"
 )
 
 func Setup() error {
@@ -27,13 +27,13 @@ func Upgrade() error {
 	log.Info("upgrading cloud apps")
 	log.Info("upgrading gcloud")
 	if err := gcloud.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill gcloud")
+		return errors.Wrapf(err, "failed to upgrade gcloud")
 	}
 	log.Info("upgraded gcloud")
 
 	log.Info("upgrading awscli")
 	if err := awscli.Upgrade(); err != nil {
-		return errors.Wrapf(err, "failed to fulfill awscli")
+		return errors.Wrapf(err, "failed to upgrade awscli")
 	}
 	log.Info("upgraded awscli")
 	log.Info("upgraded cloud apps")

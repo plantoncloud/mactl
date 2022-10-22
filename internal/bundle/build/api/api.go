@@ -58,26 +58,26 @@ func Setup() error {
 func Upgrade() error {
 	log.Infof("upgrading rest-api client - postman")
 	if err := postman.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill rest-api client - postman")
+		return errors.Wrap(err, "failed to upgrade rest-api client - postman")
 	}
 	log.Infof("upgraded rest-api client - postman")
 
 	log.Infof("upgrading graphql api client - graphql-playground")
 	if err := pg.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill graphql api client - graphql-playground")
+		return errors.Wrap(err, "failed to upgrade graphql api client - graphql-playground")
 	}
 	log.Infof("upgraded graphql api client - graphql-playground")
 
 	log.Infof("upgrading grpc api compilers")
 	log.Infof("upgrading grpc api compiler - protoc")
 	if err := protobuf.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill grpc api compiler - protoc")
+		return errors.Wrap(err, "failed to upgrade grpc api compiler - protoc")
 	}
 	log.Infof("upgraded grpc api compiler - protoc")
 
 	log.Infof("upgrading grpc api compiler - buf")
 	if err := buf.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill grpc api compiler - buf")
+		return errors.Wrap(err, "failed to upgrade grpc api compiler - buf")
 	}
 	log.Infof("upgraded grpc api compiler - buf")
 	log.Infof("upgraded grpc api compilers")
@@ -85,19 +85,19 @@ func Upgrade() error {
 	log.Infof("upgrading grpc api clients")
 	log.Infof("upgrading grpc api client - bloomrpc")
 	if err := bloomrpc.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill grpc api client - bloomrpc")
+		return errors.Wrap(err, "failed to upgrade grpc api client - bloomrpc")
 	}
 	log.Infof("upgraded grpc api client - bloomrpc")
 
 	log.Infof("upgrading grpc api client - wombat")
 	if err := wombat.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill grpc api client - wombat")
+		return errors.Wrap(err, "failed to upgrade grpc api client - wombat")
 	}
 	log.Infof("upgraded grpc api client - wombat")
 
 	log.Infof("upgrading grpc api client - grpcurl")
 	if err := grpcurl.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill grpc api client - grpcurl")
+		return errors.Wrap(err, "failed to upgrade grpc api client - grpcurl")
 	}
 	log.Infof("upgraded grpc api client - grpcurl")
 	log.Infof("upgraded grpc api clients")

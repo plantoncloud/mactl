@@ -1,9 +1,9 @@
 package extra
 
 import (
+	"github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp"
 )
 
 var Init = &cobra.Command{

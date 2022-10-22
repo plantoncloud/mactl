@@ -61,9 +61,6 @@ func Run() error {
 	if err := open(fatalErrors); err != nil {
 		fatalErrors <- errors.Wrap(err, "failed to open all apps installed as part of bootstrap")
 	}
-	if err := postOpen(fatalErrors); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to run post open steps as part of bootstrap")
-	}
 
 	close(done)
 	select {
@@ -119,18 +116,6 @@ func ensure(fatalErrors chan error) error {
 	}
 	log.Info("ensured scm")
 
-	log.Info("ensuring terminal")
-	if err := iterm.Setup(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to setup scm")
-	}
-	log.Info("ensured terminal")
-
-	log.Info("initializing ssh")
-	if err := ssh.Init(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to initialize ssh")
-	}
-	log.Info("initialized ssh")
-
 	log.Info("ensuring comm apps")
 	if err := comm.Setup(); err != nil {
 		fatalErrors <- errors.Wrap(err, "failed to setup comm apps")
@@ -146,6 +131,16 @@ func ensure(fatalErrors chan error) error {
 		fatalErrors <- errors.Wrap(err, "failed to setup hotkey")
 	}
 	log.Info("ensured hotkey")
+	log.Info("initializing ssh")
+	if err := ssh.Init(); err != nil {
+		fatalErrors <- errors.Wrap(err, "failed to initialize ssh")
+	}
+	log.Info("initialized ssh")
+	log.Info("ensuring terminal")
+	if err := iterm.Setup(); err != nil {
+		fatalErrors <- errors.Wrap(err, "failed to setup scm")
+	}
+	log.Info("ensured terminal")
 	return nil
 }
 
@@ -175,14 +170,5 @@ func open(fatalErrors chan error) error {
 		fatalErrors <- errors.Wrap(err, "failed to open google-chrome")
 	}
 	log.Infof("opened google-chrome")
-	return nil
-}
-
-func postOpen(fatalErrors chan error) error {
-	log.Info("configuring docker")
-	if err := docker.Configure(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to configure docker")
-	}
-	log.Info("configured docker")
 	return nil
 }

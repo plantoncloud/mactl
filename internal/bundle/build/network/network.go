@@ -2,12 +2,12 @@ package network
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/app/build/network/dns/dnsmasq"
 	"github.com/plantoncloud/mactl/internal/app/build/network/stunnel"
 	"github.com/plantoncloud/mactl/internal/app/build/network/wget"
 	"github.com/plantoncloud/mactl/internal/app/network/step"
 	"github.com/plantoncloud/mactl/internal/app/network/telnet"
+	log "github.com/sirupsen/logrus"
 )
 
 func Setup() error {
@@ -42,13 +42,13 @@ func Setup() error {
 func Upgrade() error {
 	log.Info("upgrading telnet")
 	if err := telnet.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill telnet")
+		return errors.Wrap(err, "failed to upgrade telnet")
 	}
 	log.Info("upgraded telnet")
 
 	log.Info("upgrading step")
 	if err := step.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to fulfill step")
+		return errors.Wrap(err, "failed to upgrade step")
 	}
 	log.Info("upgraded step")
 	log.Info("upgrading dnsmasq")
