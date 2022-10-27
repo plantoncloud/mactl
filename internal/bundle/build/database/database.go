@@ -2,8 +2,9 @@ package database
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/plantoncloud/mactl/internal/app/build/database/kcat"
 	"github.com/plantoncloud/mactl/internal/app/build/database/postgresql"
+	log "github.com/sirupsen/logrus"
 )
 
 func Setup() error {
@@ -12,5 +13,10 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure postgresql")
 	}
 	log.Info("ensured postgresql")
+	log.Info("ensuring kcat")
+	if err := kcat.Setup(); err != nil {
+		return errors.Wrap(err, "failed to ensure kcat")
+	}
+	log.Info("ensured kcat")
 	return nil
 }
