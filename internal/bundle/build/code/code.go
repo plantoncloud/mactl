@@ -2,12 +2,18 @@ package code
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/plantoncloud/mactl/internal/app/build/code/delta"
 	"github.com/plantoncloud/mactl/internal/bundle/build/code/editor"
 	"github.com/plantoncloud/mactl/internal/bundle/build/code/lang"
+	log "github.com/sirupsen/logrus"
 )
 
 func Setup() error {
+	log.Info("ensuring git tools")
+	if err := delta.Setup(); err != nil {
+		return errors.Wrap(err, "failed to ensure git-delta")
+	}
+	log.Info("ensured git tools")
 	log.Info("ensuring code bundle")
 	if err := lang.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure code bundle")

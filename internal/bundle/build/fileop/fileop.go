@@ -20,6 +20,12 @@ var Apps = []macapp.App{
 	}, {
 		Name:    "yq",
 		BrewPkg: "yq",
+	}, {
+		Name:    "bat", //https://github.com/sharkdp/bat
+		BrewPkg: "bat",
+	}, {
+		Name:    "ripgrep", //https://github.com/BurntSushi/ripgrep
+		BrewPkg: "ripgrep",
 	},
 }
 
