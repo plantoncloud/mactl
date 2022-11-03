@@ -29,8 +29,8 @@ function btctc() {
 `
 
 	GodaddyFunctions = `
-function domaindaddy() {
-    chrome "https://dcc.godaddy.com/control/${1}/dns"
+function godaddy() {
+    chrome "https://dcc.godaddy.com/manage/${1}/dns"
 }
 `
 
