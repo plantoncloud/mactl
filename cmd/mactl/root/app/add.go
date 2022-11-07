@@ -1,9 +1,9 @@
 package app
 
 import (
+	"github.com/plantoncloud/mactl/internal/app"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/plantoncloud/mactl/internal/app"
 )
 
 var Add = &cobra.Command{
