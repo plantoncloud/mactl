@@ -62,13 +62,20 @@ func Get(host, workspace string) (string, error) {
 	return string(pubKeyBytes), nil
 }
 
-// Use copies the private of the selected host and workspace to the default scm host key
+// Use copies the private and public keys of the selected host and workspace to the default scm host key
 func Use(host, workspace string) error {
 	cfg, err := config.Get(host, workspace)
 	if err != nil {
 		return errors.Wrap(err, "failed to get config")
 	}
-	sshKeyBytes, err := os.ReadFile(string(cfg.SshKeyPath))
+	sshPrivateKeyFilePath := string(cfg.SshKeyPath)
+
+	sshPrivateKeyBytes, err := os.ReadFile(sshPrivateKeyFilePath)
+	if err != nil {
+		return errors.Wrapf(err, "failed to read %s file", cfg.SshKeyPath)
+	}
+	sshPublicKeyFilePath := fmt.Sprintf("%s.pub", sshPrivateKeyFilePath)
+	sshPublicKeyBytes, err := os.ReadFile(sshPublicKeyFilePath)
 	if err != nil {
 		return errors.Wrapf(err, "failed to read %s file", cfg.SshKeyPath)
 	}
@@ -80,14 +87,23 @@ func Use(host, workspace string) error {
 	if err := os.MkdirAll(scmSshDir, 0744); err != nil {
 		return errors.Wrapf(err, "failed to ensure %s dir", scmSshDir)
 	}
-	defaultScmSshKeyPath := filepath.Join(scmSshDir, host)
-	if file.IsFileExists(defaultScmSshKeyPath) {
-		if err := os.Remove(defaultScmSshKeyPath); err != nil {
-			return errors.Wrapf(err, "failed to remove %s file", defaultScmSshKeyPath)
+	defaultScmSshPrivateKeyPath := filepath.Join(scmSshDir, host)
+	if file.IsFileExists(defaultScmSshPrivateKeyPath) {
+		if err := os.Remove(defaultScmSshPrivateKeyPath); err != nil {
+			return errors.Wrapf(err, "failed to remove %s file", defaultScmSshPrivateKeyPath)
 		}
 	}
-	if err := os.WriteFile(defaultScmSshKeyPath, sshKeyBytes, 0400); err != nil {
-		return errors.Wrapf(err, "failed to write %s file", defaultScmSshKeyPath)
+	defaultScmSshPublicKeyPath := fmt.Sprintf("%s.pub", defaultScmSshPrivateKeyPath)
+	if file.IsFileExists(defaultScmSshPublicKeyPath) {
+		if err := os.Remove(defaultScmSshPublicKeyPath); err != nil {
+			return errors.Wrapf(err, "failed to remove %s file", defaultScmSshPublicKeyPath)
+		}
+	}
+	if err := os.WriteFile(defaultScmSshPrivateKeyPath, sshPrivateKeyBytes, 0400); err != nil {
+		return errors.Wrapf(err, "failed to write %s file", defaultScmSshPrivateKeyPath)
+	}
+	if err := os.WriteFile(defaultScmSshPublicKeyPath, sshPublicKeyBytes, 0644); err != nil {
+		return errors.Wrapf(err, "failed to write %s file", defaultScmSshPrivateKeyPath)
 	}
 	return nil
 }
