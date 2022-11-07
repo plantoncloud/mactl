@@ -2,22 +2,24 @@ package key
 
 import (
 	"crypto/ed25519"
-	"crypto/rand"
-	"crypto/x509"
+	cryptorand "crypto/rand"
 	"encoding/pem"
 	"fmt"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/ssh"
+	"math/rand"
 	"os"
 	"path/filepath"
 )
 
 const (
-	SshPrivateKeyFilePermissions = 0600
-	SshPublicKeyFilePermissions  = 0644
+	sshPrivateKeyFilePermissions   = 0600
+	sshPublicKeyFilePermissions    = 0644
+	sshKeyFileDirectoryPermissions = 0744
 )
 
 func newKey(keyPath, keyName string) error {
-	if err := os.MkdirAll(keyPath, 0744); err != nil {
+	if err := os.MkdirAll(keyPath, sshKeyFileDirectoryPermissions); err != nil {
 		return errors.Wrapf(err, "failed to ensure %s dir", keyPath)
 	}
 	privateKeyPath := filepath.Join(keyPath, keyName)
@@ -30,52 +32,112 @@ func newKey(keyPath, keyName string) error {
 }
 
 // generateSaveEd25519 generates and saves ed25519 keys to disk after
-// encoding into PEM format
-// copied from https://gist.github.com/rorycl/d300f3ab942fd79e6cc1f37db0c6260f
 func generateSaveEd25519(privateKeyPath string) error {
-
-	var (
-		err   error
-		b     []byte
-		block *pem.Block
-		pub   ed25519.PublicKey
-		priv  ed25519.PrivateKey
-	)
-
-	pub, priv, err = ed25519.GenerateKey(rand.Reader)
+	ed25519PublicKey, ed25519PrivateKey, err := ed25519.GenerateKey(cryptorand.Reader)
 	if err != nil {
-		fmt.Printf("Generation error : %s", err)
-		os.Exit(1)
+		return errors.Wrapf(err, "failed to generate ed25519 key pair")
+
 	}
 
-	b, err = x509.MarshalPKCS8PrivateKey(priv)
+	pemKey := &pem.Block{
+		Type:  "OPENSSH PRIVATE KEY",
+		Bytes: marshalED25519PrivateKey(ed25519PrivateKey),
+	}
+
+	privateKeyPemBytes := pem.EncodeToMemory(pemKey)
+
+	sshPublicKey, err := ssh.NewPublicKey(ed25519PublicKey)
 	if err != nil {
-		return err
+		return errors.Wrapf(err, "failed to convert ed25519 public key into ssh public key")
 	}
 
-	block = &pem.Block{
-		Type:  "PRIVATE KEY",
-		Bytes: b,
+	publicAuthorizedKeyBytes := ssh.MarshalAuthorizedKey(sshPublicKey)
+
+	if err := os.WriteFile(privateKeyPath, privateKeyPemBytes, sshPrivateKeyFilePermissions); err != nil {
+		return errors.Wrapf(err, "failed to write private key file %s", privateKeyPath)
+	}
+	publicKeyPath := fmt.Sprintf("%s.pub", privateKeyPath)
+	if err := os.WriteFile(publicKeyPath, publicAuthorizedKeyBytes, sshPublicKeyFilePermissions); err != nil {
+		return errors.Wrapf(err, "failed to write public key file %s", publicKeyPath)
+	}
+	return nil
+}
+
+// marshalED25519PrivateKey converts ed25519 into open-ssh private key format.
+// copied from https://github.com/mikesmitty/edkey/blob/master/edkey.go
+func marshalED25519PrivateKey(key ed25519.PrivateKey) []byte {
+	// Add our key header (followed by a null byte)
+	magic := append([]byte("openssh-key-v1"), 0)
+
+	var w struct {
+		CipherName   string
+		KdfName      string
+		KdfOpts      string
+		NumKeys      uint32
+		PubKey       []byte
+		PrivKeyBlock []byte
 	}
 
-	err = os.WriteFile(privateKeyPath, pem.EncodeToMemory(block), SshPrivateKeyFilePermissions)
-	if err != nil {
-		return err
+	// Fill out the private key fields
+	pk1 := struct {
+		Check1  uint32
+		Check2  uint32
+		Keytype string
+		Pub     []byte
+		Priv    []byte
+		Comment string
+		Pad     []byte `ssh:"rest"`
+	}{}
+
+	// Set our check ints
+	ci := rand.Uint32()
+	pk1.Check1 = ci
+	pk1.Check2 = ci
+
+	// Set our key type
+	pk1.Keytype = ssh.KeyAlgoED25519
+
+	// Add the pubkey to the optionally-encrypted block
+	pk, ok := key.Public().(ed25519.PublicKey)
+	if !ok {
+		//fmt.Fprintln(os.Stderr, "ed25519.PublicKey type assertion failed on an ed25519 public key. This should never ever happen.")
+		return nil
+	}
+	pubKey := []byte(pk)
+	pk1.Pub = pubKey
+
+	// Add our private key
+	pk1.Priv = []byte(key)
+
+	// Might be useful to put something in here at some point
+	pk1.Comment = ""
+
+	// Add some padding to match the encryption block size within PrivKeyBlock (without Pad field)
+	// 8 doesn't match the documentation, but that's what ssh-keygen uses for unencrypted keys. *shrug*
+	bs := 8
+	blockLen := len(ssh.Marshal(pk1))
+	padLen := (bs - (blockLen % bs)) % bs
+	pk1.Pad = make([]byte, padLen)
+
+	// Padding is a sequence of bytes like: 1, 2, 3...
+	for i := 0; i < padLen; i++ {
+		pk1.Pad[i] = byte(i + 1)
 	}
 
-	// public key
-	b, err = x509.MarshalPKIXPublicKey(pub)
-	if err != nil {
-		return err
-	}
+	// Generate the pubkey prefix "\0\0\0\nssh-ed25519\0\0\0 "
+	prefix := []byte{0x0, 0x0, 0x0, 0x0b}
+	prefix = append(prefix, []byte(ssh.KeyAlgoED25519)...)
+	prefix = append(prefix, []byte{0x0, 0x0, 0x0, 0x20}...)
 
-	block = &pem.Block{
-		Type:  "PUBLIC KEY",
-		Bytes: b,
-	}
+	// Only going to support unencrypted keys for now
+	w.CipherName = "none"
+	w.KdfName = "none"
+	w.KdfOpts = ""
+	w.NumKeys = 1
+	w.PubKey = append(prefix, pubKey...)
+	w.PrivKeyBlock = ssh.Marshal(pk1)
 
-	fileName := privateKeyPath + ".pub"
-	err = os.WriteFile(fileName, pem.EncodeToMemory(block), SshPublicKeyFilePermissions)
-	return err
+	magic = append(magic, ssh.Marshal(w)...)
 
+	return magic
 }

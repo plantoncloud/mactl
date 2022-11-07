@@ -42,7 +42,7 @@ clean:
 checksum:
 	@openssl dgst -sha256 ${build_dir}/${name}-darwin
 
-local:
+local: build
 	sudo rm -f /usr/local/bin/${name_local}
 	sudo cp ./${build_dir}/${name}-darwin /usr/local/bin/${name_local}
 	sudo chmod +x /usr/local/bin/${name_local}
