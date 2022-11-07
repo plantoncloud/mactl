@@ -1,102 +1,81 @@
 package key
 
 import (
+	"crypto/ed25519"
 	"crypto/rand"
-	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"github.com/leftbin/go-util/pkg/file"
 	"github.com/pkg/errors"
-	"golang.org/x/crypto/ssh"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
 const (
-	SshKeyFilePerm = 0400
+	SshPrivateKeyFilePermissions = 0600
+	SshPublicKeyFilePermissions  = 0644
 )
 
 func newKey(keyPath, keyName string) error {
 	if err := os.MkdirAll(keyPath, 0744); err != nil {
 		return errors.Wrapf(err, "failed to ensure %s dir", keyPath)
 	}
-	pvtKeyPath := filepath.Join(keyPath, keyName)
-	pubKeyPath := fmt.Sprintf("%s.pub", pvtKeyPath)
-	bitSize := 4096
-
-	pvtKey, err := generatePrivateKey(bitSize)
-	if err != nil {
-		return errors.Wrap(err, "failed to cre pvt key")
-	}
-
-	pubKeyBytes, err := generatePubKey(&pvtKey.PublicKey)
-	if err != nil {
-		return errors.Wrap(err, "failed to cre pub key")
-	}
-
-	pvtKeyBytes := encodePvtKeyToPEM(pvtKey)
-
-	if err := writeKeyToFile(pvtKeyBytes, pvtKeyPath); err != nil {
-		return errors.Wrapf(err, "failed to write pvt key to %s file", pvtKeyPath)
-	}
-	if err := writeKeyToFile(pubKeyBytes, pubKeyPath); err != nil {
-		return errors.Wrapf(err, "failed to write pub key to %s file", pubKeyPath)
+	privateKeyPath := filepath.Join(keyPath, keyName)
+	// ed25519 algorithm is chosen for reasons explained on
+	// https://gist.github.com/brennanMKE/8e09593ca4064deab59da807077d8f53
+	if err := generateSaveEd25519(privateKeyPath); err != nil {
+		return err
 	}
 	return nil
 }
 
-// generatePrivateKey creates a RSA Private Key of specified byte size
-func generatePrivateKey(bitSize int) (*rsa.PrivateKey, error) {
-	// Private Key generation
-	pvtKey, err := rsa.GenerateKey(rand.Reader, bitSize)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to generate key")
-	}
-	// Validate Private Key
-	err = pvtKey.Validate()
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to validate key")
-	}
-	return pvtKey, nil
-}
+// generateSaveEd25519 generates and saves ed25519 keys to disk after
+// encoding into PEM format
+// copied from https://gist.github.com/rorycl/d300f3ab942fd79e6cc1f37db0c6260f
+func generateSaveEd25519(privateKeyPath string) error {
 
-// encodePvtKeyToPEM encodes Private Key from RSA to PEM format
-func encodePvtKeyToPEM(pvtKey *rsa.PrivateKey) []byte {
-	// Get ASN.1 DER format
-	provider := x509.MarshalPKCS1PrivateKey(pvtKey)
-	// pem.Block
-	pvtBlock := pem.Block{
-		Type:    "RSA PRIVATE KEY",
-		Headers: nil,
-		Bytes:   provider,
-	}
-	// Private key in PEM format
-	pvtPem := pem.EncodeToMemory(&pvtBlock)
-	return pvtPem
-}
+	var (
+		err   error
+		b     []byte
+		block *pem.Block
+		pub   ed25519.PublicKey
+		priv  ed25519.PrivateKey
+	)
 
-// generatePubKey take a rsa.PublicKey and return bytes suitable for writing to .pub file
-// returns in the format "ssh-rsa ..."
-func generatePubKey(pvtKey *rsa.PublicKey) ([]byte, error) {
-	pubRsaKey, err := ssh.NewPublicKey(pvtKey)
+	pub, priv, err = ed25519.GenerateKey(rand.Reader)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get new pub key")
+		fmt.Printf("Generation error : %s", err)
+		os.Exit(1)
 	}
-	pubKeyBytes := ssh.MarshalAuthorizedKey(pubRsaKey)
-	return pubKeyBytes, nil
-}
 
-// writePemToFile writes keys to a file
-func writeKeyToFile(keyBytes []byte, saveFileTo string) error {
-	if file.IsFileExists(saveFileTo) {
-		if err := os.Remove(saveFileTo); err != nil {
-			return errors.Wrapf(err, "failed to remove %s file", saveFileTo)
-		}
+	b, err = x509.MarshalPKCS8PrivateKey(priv)
+	if err != nil {
+		return err
 	}
-	if err := ioutil.WriteFile(saveFileTo, keyBytes, SshKeyFilePerm); err != nil {
-		return errors.Wrapf(err, "failed to write file %s", saveFileTo)
+
+	block = &pem.Block{
+		Type:  "PRIVATE KEY",
+		Bytes: b,
 	}
-	return nil
+
+	err = os.WriteFile(privateKeyPath, pem.EncodeToMemory(block), SshPrivateKeyFilePermissions)
+	if err != nil {
+		return err
+	}
+
+	// public key
+	b, err = x509.MarshalPKIXPublicKey(pub)
+	if err != nil {
+		return err
+	}
+
+	block = &pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: b,
+	}
+
+	fileName := privateKeyPath + ".pub"
+	err = os.WriteFile(fileName, pem.EncodeToMemory(block), SshPublicKeyFilePermissions)
+	return err
+
 }
