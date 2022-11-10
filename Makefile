@@ -1,8 +1,8 @@
+v?=v0.0.5
 name=mactl
 name_local=mactl
 pkg=github.com/plantoncloud/mactl
 build_dir=build
-v?=dev
 LDFLAGS=-ldflags "-X ${pkg}/internal/version.Version=${v}"
 build_cmd=go build -v ${LDFLAGS}
 
