@@ -1,8 +1,8 @@
 package keyboard
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/plantoncloud/mactl/cmd/mactl/root/keyboard/shortcut"
+	"github.com/spf13/cobra"
 )
 
 var Shortcut = &cobra.Command{
@@ -11,5 +11,9 @@ var Shortcut = &cobra.Command{
 }
 
 func init() {
-	Shortcut.AddCommand(shortcut.List, shortcut.Setup, shortcut.Extra)
+	Shortcut.AddCommand(
+		shortcut.List,
+		shortcut.Init,
+		shortcut.Edit,
+	)
 }

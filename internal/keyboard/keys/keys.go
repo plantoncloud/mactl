@@ -3,9 +3,9 @@ package keys
 type KeyBoardKey string
 
 type AppShortcut struct {
-	AppName     string      `yaml:"appName"`
-	Key         KeyBoardKey `yaml:"key"`
-	AppFilePath string      `yaml:"appFilePath"`
+	AppName     string      `yaml:"app_name" json:"app_name"`
+	Key         KeyBoardKey `yaml:"key" json:"key"`
+	AppFilePath string      `yaml:"app_file_path" json:"app_file_path"`
 }
 
 const (

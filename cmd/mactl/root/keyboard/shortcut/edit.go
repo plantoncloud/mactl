@@ -1,19 +1,19 @@
-package extra
+package shortcut
 
 import (
+	keyboardshortcutopenapp "github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp/extra"
 )
 
 var Edit = &cobra.Command{
 	Use:   "edit",
-	Short: "edit extra shortcuts",
+	Short: "edit keyboard shortcuts to open apps",
 	Run:   editHandler,
 }
 
 func editHandler(cmd *cobra.Command, args []string) {
-	if err := extra.Edit(); err != nil {
+	if err := keyboardshortcutopenapp.Edit(); err != nil {
 		log.Fatalf("%v", err)
 	}
 }
