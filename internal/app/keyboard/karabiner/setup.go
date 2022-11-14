@@ -38,7 +38,7 @@ func Configure() error {
 	if err := karabinerconfig.Setup(); err != nil {
 		return errors.Wrapf(err, "failed to configure karabiner")
 	}
-	if err := openapp.Setup(); err != nil {
+	if err := openapp.Initialize(); err != nil {
 		return errors.Wrapf(err, "failed to add config to create hotkey shortcuts to open apps")
 	}
 	return nil

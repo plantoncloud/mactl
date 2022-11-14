@@ -8,7 +8,7 @@ import (
 
 var List = &cobra.Command{
 	Use:   "list",
-	Short: "list shortcuts",
+	Short: "list shortcuts to open apps",
 	Run:   listHandler,
 }
 
