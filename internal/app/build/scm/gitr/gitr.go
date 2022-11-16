@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	BrewPkg        = "swarupdonepudi/homebrew-gitr/gitr"
+	BrewPkg        = "plantoncloud/homebrew-tap/gitr"
 	ConfigFileName = ".gitr.yaml"
 )
 
