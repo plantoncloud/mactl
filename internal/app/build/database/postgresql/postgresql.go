@@ -2,12 +2,13 @@ package postgresql
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/installer/brew"
+	log "github.com/sirupsen/logrus"
 )
 
 const (
-	BrewPkg = "postgresql"
+	BrewPkg        = "postgresql"
+	BrewPkgPgAdmin = "pgadmin4"
 )
 
 func Setup() error {
@@ -16,6 +17,11 @@ func Setup() error {
 		return errors.Wrap(err, "failed to install postgresql")
 	}
 	log.Info("installed postgresql")
+	log.Info("installing pgadmin")
+	if err := brew.Install(BrewPkgPgAdmin); err != nil {
+		return errors.Wrap(err, "failed to install pgadmin")
+	}
+	log.Info("installed pgadmin")
 	return nil
 }
 
