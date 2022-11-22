@@ -7,13 +7,13 @@ import (
 
 func Get() string {
 	var zb strings.Builder
-	zb.WriteString("## gcloud env vars begin\n")
 	addEnvVars(&zb)
-	zb.WriteString("## gcloud env vars end\n")
 	return zb.String()
 }
 
 func addEnvVars(zb *strings.Builder) {
+	//https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+	zb.WriteString("export USE_GKE_GCLOUD_AUTH_PLUGIN=True")
 	if runtime.GOARCH == "arm64" {
 		zb.WriteString(`
 source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
