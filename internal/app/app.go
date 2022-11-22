@@ -7,6 +7,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/audio/krisp"
 	"github.com/plantoncloud/mactl/internal/app/audio/shush"
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
+	"github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java"
 	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/app/build/network/dns/dnsmasq"
@@ -35,6 +36,7 @@ const (
 	dnsmasqApp            App = "dnsmasq"
 	dockerApp             App = "docker"
 	flycutApp             App = "flycut"
+	gcloudApp             App = "gcloud"
 	githubApp             App = "github"
 	gitrApp               App = "gitr"
 	itermApp              App = "iterm"
@@ -61,6 +63,7 @@ func Get(app string) App {
 		"dnsmasq",
 		"docker",
 		"flycut",
+		"gcloud",
 		"github",
 		"gitr",
 		"iterm",
@@ -93,6 +96,7 @@ func PrintList() {
 		dnsmasqApp,
 		dockerApp,
 		flycutApp,
+		gcloudApp,
 		githubApp,
 		gitrApp,
 		itermApp,
@@ -126,6 +130,8 @@ func Add(app App) error {
 		return docker.Setup()
 	case flycutApp:
 		return flycut.Setup()
+	case gcloudApp:
+		return gcloud.Setup()
 	case githubApp:
 		return github.Setup()
 	case gitrApp:

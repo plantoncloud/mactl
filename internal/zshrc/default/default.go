@@ -31,7 +31,7 @@ set -o vi
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ${HOME}/.p10k.zsh ]] || source ${HOME}/.p10k.zsh
 
-mactl zshrc generate
+/opt/homebrew/bin/mactl zshrc generate
 source ${HOME}/.zshrc.mactl.generated
 eval "$(mcfly init zsh)"
 `
