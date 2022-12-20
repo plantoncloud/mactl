@@ -2,11 +2,11 @@ package mactl
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
 	"github.com/plantoncloud/mactl/cmd/mactl/root"
 	"github.com/plantoncloud/mactl/internal/cli/flag"
 	intos "github.com/plantoncloud/mactl/internal/lib/os"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
 	"os"
 )
 
@@ -22,7 +22,6 @@ const HomebrewAppleSiliconBinPath = "/opt/homebrew/bin"
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&debug, string(flag.Debug), false, "set log level to debug")
-	rootCmd.AddCommand(root.Version, root.Bootstrap, root.Git, root.App, root.Bundle, root.Optimize, root.Zshrc, root.Keyboard)
 	rootCmd.DisableSuggestions = true
 	cobra.OnInitialize(func() {
 		if debug {
@@ -36,6 +35,17 @@ func init() {
 			}
 		}
 	})
+	rootCmd.AddCommand(
+		root.App,
+		root.Bootstrap,
+		root.Bundle,
+		root.EnvVar,
+		root.Git,
+		root.Keyboard,
+		root.Optimize,
+		root.Version,
+		root.Zshrc,
+	)
 }
 
 func Execute() {
