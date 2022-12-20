@@ -4,6 +4,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/plantoncloud/mactl/internal/cli/clierr"
 	"github.com/plantoncloud/mactl/internal/envvar"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -18,4 +19,5 @@ func addHandler(cmd *cobra.Command, args []string) {
 		clierr.HandleDefault(errors.New("two arguments variable name and value are required."))
 	}
 	clierr.HandleDefault(envvar.Add(args[0], args[1]))
+	log.Info("reload shell to use the environment variable by running 'rsh' command.")
 }
