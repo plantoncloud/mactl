@@ -64,7 +64,7 @@ mactl git init --username <git-username> --email <leftbin-email> --workspace <gi
 ## release
 
 release process is currently manual. releasing a new version requires a binary to be uploaded
-to [gs://planton-pcs-artifact-file-repo](https://console.cloud.google.com/storage/browser/planton-pcs-artifact-file-repo/tool/mactl/download)
+to [gs://afs-planton-pos-uc1-ext-file-repo](https://console.cloud.google.com/storage/browser/afs-planton-pos-uc1-ext-file-repo/tool/mactl/download)
 location on GCS.
 
 this can be accomplished by running the below make command after logging into gcp using gcloud.

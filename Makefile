@@ -48,5 +48,5 @@ local: build
 	sudo chmod +x /usr/local/bin/${name_local}
 
 release: build
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-amd64 gs://planton-pcs-artifact-file-repo/tool/mactl/download/mactl-${v}-amd64
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-arm64 gs://planton-pcs-artifact-file-repo/tool/mactl/download/mactl-${v}-arm64
+	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-amd64 gs://afs-planton-pos-uc1-ext-file-repo/tool/mactl/download/mactl-${v}-amd64
+	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-arm64 gs://afs-planton-pos-uc1-ext-file-repo/tool/mactl/download/mactl-${v}-arm64
