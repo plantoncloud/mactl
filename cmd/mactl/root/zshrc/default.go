@@ -1,8 +1,8 @@
 package zshrc
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/plantoncloud/mactl/cmd/mactl/root/zshrc/default"
+	"github.com/spf13/cobra"
 )
 
 var Default = &cobra.Command{
@@ -11,5 +11,5 @@ var Default = &cobra.Command{
 }
 
 func init() {
-	Default.AddCommand(_default.Cre, _default.Show)
+	Default.AddCommand(_default.Create, _default.Show)
 }

@@ -2,7 +2,6 @@ package generate
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	gcloud "github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud/zshrc"
 	golang "github.com/plantoncloud/mactl/internal/app/build/code/lang/golang/zshrc"
 	java "github.com/plantoncloud/mactl/internal/app/build/code/lang/java/zshrc"
@@ -16,6 +15,7 @@ import (
 	brew "github.com/plantoncloud/mactl/internal/installer/brew/zshrc"
 	"github.com/plantoncloud/mactl/internal/lib/shell"
 	"github.com/plantoncloud/mactl/internal/zshrc/override"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -26,8 +26,8 @@ const (
 	GeneratedZshrcFileName = ".zshrc.mactl.generated"
 )
 
-//Cre creates .zshrc.mactl.generated file
-func Cre() error {
+// Create creates .zshrc.mactl.generated file
+func Create() error {
 	generatedContent, err := getGenerated()
 	if err != nil {
 		return errors.Wrapf(err, "failed to get generated content")

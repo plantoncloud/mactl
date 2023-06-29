@@ -79,7 +79,7 @@ func Setup() error {
 	}
 	log.Info("ensured mcfly")
 	log.Info("ensuring zshrc file")
-	if err := _default.Cre(); err != nil {
+	if err := _default.Create(); err != nil {
 		return errors.Wrap(err, "failed to ensure zshrc file")
 	}
 	log.Info("ensured zshrc file")
