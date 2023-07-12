@@ -20,7 +20,7 @@ func init() {
 func generateHandler(cmd *cobra.Command, args []string) {
 	isShow, err := cmd.PersistentFlags().GetBool(string(flag.Show))
 	flag.HandleFlagErr(err, flag.Show)
-	if err := generate.Cre(); err != nil {
+	if err := generate.Create(); err != nil {
 		log.Fatalf("%v", err)
 	}
 	if !isShow {

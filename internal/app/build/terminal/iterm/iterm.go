@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/leftbin/go-util/pkg/file"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/mcfly"
 	"github.com/plantoncloud/mactl/internal/cli/cache"
 	"github.com/plantoncloud/mactl/internal/installer/brew"
@@ -13,6 +12,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/lib/plist"
 	"github.com/plantoncloud/mactl/internal/lib/shell"
 	"github.com/plantoncloud/mactl/internal/zshrc/default"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -26,6 +26,8 @@ const (
 	OhMyZshInstallScriptUrl   = "https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
 	ColorSchemesGitCloneUrl   = "https://github.com/mbadolato/iTerm2-Color-Schemes.git"
 	PowerlineFontsGitCloneUrl = "https://github.com/powerline/fonts.git"
+	// BrewPkgKubeContextDisplayZshPlugin https://github.com/jonmosco/kube-ps1
+	BrewPkgKubeContextDisplayZshPlugin = "kube-ps1"
 )
 
 var (
@@ -77,7 +79,7 @@ func Setup() error {
 	}
 	log.Info("ensured mcfly")
 	log.Info("ensuring zshrc file")
-	if err := _default.Cre(); err != nil {
+	if err := _default.Create(); err != nil {
 		return errors.Wrap(err, "failed to ensure zshrc file")
 	}
 	log.Info("ensured zshrc file")
@@ -192,6 +194,9 @@ func installZshPlugins() error {
 		if err := installZshPlugin(name, gitUrl); err != nil {
 			return errors.Wrapf(err, "failed to install %s zsh plugin", name)
 		}
+	}
+	if err := brew.Install(BrewPkgKubeContextDisplayZshPlugin); err != nil {
+		return errors.Wrapf(err, "failed to install zsh-plugin %s", BrewPkgKubeContextDisplayZshPlugin)
 	}
 	return nil
 }

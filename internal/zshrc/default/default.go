@@ -25,11 +25,14 @@ plugins=(
     zsh-syntax-highlighting
     zsh-autosuggestions
     kubectl
+    kube-ps1
 )
 
 set -o vi
 source $ZSH/oh-my-zsh.sh
 [[ ! -f ${HOME}/.p10k.zsh ]] || source ${HOME}/.p10k.zsh
+
+PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
 
 /opt/homebrew/bin/mactl zshrc generate
 source ${HOME}/.zshrc.mactl.generated
@@ -39,7 +42,7 @@ eval "$(mcfly init zsh)"
 
 const DefaultFileName = ".zshrc"
 
-func Cre() error {
+func Create() error {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return errors.Wrap(err, "failed to get home dir")

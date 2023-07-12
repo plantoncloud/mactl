@@ -6,6 +6,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
 	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
+	"github.com/plantoncloud/mactl/internal/app/build/terminal/warp"
 	"github.com/plantoncloud/mactl/internal/app/installer/mas"
 	"github.com/plantoncloud/mactl/internal/app/keyboard/karabiner"
 	"github.com/plantoncloud/mactl/internal/app/keyboard/rectangle"
@@ -138,7 +139,10 @@ func ensure(fatalErrors chan error) error {
 	log.Info("initialized ssh")
 	log.Info("ensuring terminal")
 	if err := iterm.Setup(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to setup scm")
+		fatalErrors <- errors.Wrap(err, "failed to setup iterm terminal")
+	}
+	if err := warp.Setup(); err != nil {
+		fatalErrors <- errors.Wrap(err, "failed to setup warp terminal")
 	}
 	log.Info("ensured terminal")
 	return nil
