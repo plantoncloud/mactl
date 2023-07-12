@@ -13,7 +13,7 @@ const (
 )
 
 var (
-	CapsLockMofifierKeys = []string{"left_shift", "left_control", "left_option", "left_command"}
+	CapsLockModifierKeys = []string{"left_shift", "left_control", "left_option", "left_command"}
 )
 
 func Setup() error {

@@ -93,7 +93,7 @@ func addShortcuts(c *karabinercfg.Config, shortcuts map[keys.KeyBoardKey]*keys.A
 					From: &karabinercfg.ComplexModRuleManipulatorFrom{
 						KeyCode: string(s.Key),
 						Modifiers: &karabinercfg.ComplexModRuleManipulatorFromModifiers{
-							Mandatory: karabinercfg.CapsLockMofifierKeys,
+							Mandatory: karabinercfg.CapsLockModifierKeys,
 						},
 					},
 					To: []*karabinercfg.ComplexModRuleManipulatorTo{
