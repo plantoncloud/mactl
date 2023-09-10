@@ -1,9 +1,9 @@
-v?=v0.0.9
+version?=v0.0.14
 name=mactl
 name_local=mactl
 pkg=github.com/plantoncloud/mactl
 build_dir=build
-LDFLAGS=-ldflags "-X ${pkg}/internal/version.Version=${v}"
+LDFLAGS=-ldflags "-X ${pkg}/internal/version.Version=${version}"
 build_cmd=go build -v ${LDFLAGS}
 
 .PHONY: deps
@@ -48,5 +48,5 @@ local: build
 	sudo chmod +x /usr/local/bin/${name_local}
 
 release: build
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-amd64 gs://afs-planton-pos-uc1-ext-file-repo/tool/mactl/download/mactl-${v}-amd64
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-arm64 gs://afs-planton-pos-uc1-ext-file-repo/tool/mactl/download/mactl-${v}-arm64
+	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-amd64 gs://mactl/${version}/mactl-${version}-amd64
+	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-arm64 gs://mactl/${version}/mactl-${version}-arm64
