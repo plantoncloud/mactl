@@ -34,6 +34,10 @@ const (
 
 [url "git@gitlab.com:"]
     insteadOf = https://gitlab.com/
+
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+
 {{ range $dir, $gitConfigPath := . }}
 [includeIf "gitdir:{{$dir}}/"]
     path = {{$gitConfigPath}}

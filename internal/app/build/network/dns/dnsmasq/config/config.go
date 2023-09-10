@@ -1,18 +1,20 @@
 package config
 
 import (
+	"fmt"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	osint "github.com/plantoncloud/mactl/internal/lib/os"
 	"github.com/plantoncloud/mactl/internal/lib/shell"
+	log "github.com/sirupsen/logrus"
 	"os/exec"
+	"regexp"
 )
 
 const (
-	// PlistFileIntel todo: hardcoded version should be replaced
-	PlistFileIntel   = "/usr/local/Cellar/dnsmasq/2.87/homebrew.mxcl.dnsmasq.plist"
-	PlistFileSilicon = "/opt/homebrew/Cellar/dnsmasq/2.87/homebrew.mxcl.dnsmasq.plist"
-	LaunchDaemonLoc  = "/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist"
+	// PlistFileIntelFormatterString todo: hardcoded version should be replaced
+	PlistFileIntelFormatterString   = "/usr/local/Cellar/dnsmasq/%s/homebrew.mxcl.dnsmasq.plist"
+	PlistFileSiliconFormatterString = "/opt/homebrew/Cellar/dnsmasq/%s/homebrew.mxcl.dnsmasq.plist"
+	LaunchDaemonLoc                 = "/Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist"
 )
 
 func Setup() error {
@@ -24,19 +26,38 @@ func Setup() error {
 
 func setupLaunchDaemon() error {
 	log.Infof("ensuring launch daemon")
-	if err := shell.RunCmd(exec.Command("sudo", "cp", getPlistPath(), LaunchDaemonLoc)); err != nil {
-		return errors.Wrapf(err, "failed to copy launch daemon file from %s to %s", getPlistPath(), LaunchDaemonLoc)
+	installedVersion, err := getInstalledVersion()
+	if err != nil {
+		return errors.Wrapf(err, "failed to get installed dnsmasq version")
+	}
+	if err := shell.RunCmd(exec.Command("sudo", "cp", getPlistPath(installedVersion), LaunchDaemonLoc)); err != nil {
+		return errors.Wrapf(err, "failed to copy launch daemon file from %s to %s", getPlistPath(""), LaunchDaemonLoc)
 	}
 	if err := shell.RunCmd(exec.Command("sudo", "launchctl", "load", LaunchDaemonLoc)); err != nil {
-		return errors.Wrapf(err, "failed to copy launch daemon file from %s to %s", getPlistPath(), LaunchDaemonLoc)
+		return errors.Wrapf(err, "failed to copy launch daemon file from %s to %s", getPlistPath(installedVersion), LaunchDaemonLoc)
 	}
 	log.Infof("ensured launch daemon")
 	return nil
 }
 
-func getPlistPath() string {
-	if osint.GetArch() == osint.ARM64 {
-		return PlistFileSilicon
+func getInstalledVersion() (string, error) {
+	out, err := exec.Command("sh", "-c", "brew info dnsmasq | grep 'dnsmasq:'").Output()
+	if err != nil {
+		return "", errors.Wrapf(err, "failed to get installed dnsmasq version")
 	}
-	return PlistFileIntel
+
+	// Parse the output using regex
+	re := regexp.MustCompile(`dnsmasq: stable (\S+)`)
+	match := re.FindStringSubmatch(string(out))
+	if len(match) <= 1 {
+		return "", errors.Errorf("failed to parse dnsmasq version from output %s", string(out))
+	}
+	return match[1], nil
+}
+
+func getPlistPath(installedVersion string) string {
+	if osint.GetArch() == osint.ARM64 {
+		return fmt.Sprintf(PlistFileSiliconFormatterString, installedVersion)
+	}
+	return fmt.Sprintf(PlistFileIntelFormatterString, installedVersion)
 }

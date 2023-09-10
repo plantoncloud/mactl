@@ -3,7 +3,6 @@ package comm
 import (
 	"github.com/pkg/errors"
 	"github.com/plantoncloud/mactl/internal/app/comm/discord"
-	"github.com/plantoncloud/mactl/internal/app/comm/gitter"
 	"github.com/plantoncloud/mactl/internal/app/comm/slack"
 	"github.com/plantoncloud/mactl/internal/app/comm/telegram"
 	"github.com/plantoncloud/mactl/internal/app/comm/whatsapp"
@@ -26,11 +25,12 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure telegram")
 	}
 	log.Info("ensured telegram")
-	log.Info("ensuring gitter")
-	if err := gitter.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure gitter")
-	}
-	log.Info("ensured gitter")
+	//todo: failed installing.
+	//log.Info("ensuring gitter")
+	//if err := gitter.Setup(); err != nil {
+	//	return errors.Wrap(err, "failed to ensure gitter")
+	//}
+	//log.Info("ensured gitter")
 	log.Info("ensuring discord")
 	if err := discord.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure discord")
