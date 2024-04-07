@@ -9,8 +9,6 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/python"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/sql"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/swift"
-	"github.com/plantoncloud/mactl/internal/app/build/scm/battenberg"
-	"github.com/plantoncloud/mactl/internal/app/build/scm/cookiecutter"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -30,16 +28,16 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure python")
 	}
 	log.Info("ensured python")
-	log.Info("ensuring battenberg")
-	if err := battenberg.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure battenberg")
-	}
-	log.Info("ensured battenberg")
-	log.Info("ensuring cookiecutter")
-	if err := cookiecutter.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure cookiecutter")
-	}
-	log.Info("ensured cookiecutter")
+	//log.Info("ensuring battenberg")
+	//if err := battenberg.Setup(); err != nil {
+	//	return errors.Wrap(err, "failed to ensure battenberg")
+	//}
+	//log.Info("ensured battenberg")
+	//log.Info("ensuring cookiecutter")
+	//if err := cookiecutter.Setup(); err != nil {
+	//	return errors.Wrap(err, "failed to ensure cookiecutter")
+	//}
+	//log.Info("ensured cookiecutter")
 	log.Info("ensuring java")
 	if err := java.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure java")
