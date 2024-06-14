@@ -1,4 +1,4 @@
-version?=v0.0.15
+version?=v0.0.16
 name=mactl
 name_local=mactl
 pkg=github.com/plantoncloud/mactl
