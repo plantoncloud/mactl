@@ -115,6 +115,8 @@ func getGenerated() ([]byte, error) {
 func appendCommonFunctions(zb *strings.Builder) {
 	zb.WriteString(UtilFunctions)
 	zb.WriteString("\n")
+	zb.WriteString(StringFunctions)
+	zb.WriteString("\n")
 	zb.WriteString(ChromeFunctions)
 	zb.WriteString("\n")
 	zb.WriteString(GodaddyFunctions)

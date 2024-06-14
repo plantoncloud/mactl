@@ -57,4 +57,12 @@ function lh() {
   chrome "http://localhost:${1}"
 }
 `
+	StringFunctions = `
+function b64d() {
+    echo "$1" | base64 -D
+}
+function b64e() {
+    echo "$1" | base64
+}
+`
 )
