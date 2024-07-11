@@ -12,6 +12,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/build/code/vscode"
 	"github.com/plantoncloud/mactl/internal/app/build/scm/github"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
+	"github.com/plantoncloud/mactl/internal/app/build/ux/figma"
 	"github.com/plantoncloud/mactl/internal/app/comm/slack"
 	"github.com/plantoncloud/mactl/internal/app/comm/telegram"
 	"github.com/plantoncloud/mactl/internal/app/comm/whatsapp"
@@ -85,7 +86,7 @@ var DefaultShortcuts = []*keys.AppShortcut{
 	}, {
 		AppName:     mail.AppName,
 		Key:         keys.Q,
-		AppFilePath: mail.GetPath(),
+		AppFilePath: figma.GetPath(),
 	}, {
 		AppName:     whatsapp.AppName,
 		Key:         keys.Z,

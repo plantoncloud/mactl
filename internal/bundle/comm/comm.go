@@ -15,6 +15,11 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure slack")
 	}
 	log.Info("ensured slack")
+	log.Info("ensuring discord")
+	if err := discord.Setup(); err != nil {
+		return errors.Wrap(err, "failed to ensure discord")
+	}
+	log.Info("ensured discord")
 	log.Info("ensuring whatsapp")
 	if err := whatsapp.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure whatsapp")
@@ -31,10 +36,5 @@ func Setup() error {
 	//	return errors.Wrap(err, "failed to ensure gitter")
 	//}
 	//log.Info("ensured gitter")
-	log.Info("ensuring discord")
-	if err := discord.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure discord")
-	}
-	log.Info("ensured discord")
 	return nil
 }
