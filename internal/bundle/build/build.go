@@ -14,6 +14,7 @@ import (
 	"github.com/plantoncloud/mactl/internal/bundle/build/kubernetes"
 	"github.com/plantoncloud/mactl/internal/bundle/build/network"
 	"github.com/plantoncloud/mactl/internal/bundle/build/scm"
+	"github.com/plantoncloud/mactl/internal/bundle/build/ux"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -23,6 +24,11 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure file bundle")
 	}
 	log.Info("ensured file-operations bundle")
+	log.Info("ensuring ux bundle")
+	if err := ux.Setup(); err != nil {
+		return errors.Wrap(err, "failed to ensure ux bundle")
+	}
+	log.Info("ensured ux bundle")
 	log.Info("ensuring auth bundle")
 	if err := auth.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure auth bundle")
