@@ -10,17 +10,19 @@ type Flag string
 type EnvVar string
 
 const (
-	Copy      Flag = "copy"
-	Debug     Flag = "debug"
-	Email     Flag = "email"
-	Host      Flag = "host"
-	Name      Flag = "name"
-	OutFile   Flag = "out-file"
-	Show      Flag = "show"
-	SshKey    Flag = "ssh-key"
-	Username  Flag = "username"
-	Val       Flag = "val"
-	Workspace Flag = "workspace"
+	Copy                 Flag = "copy"
+	Debug                Flag = "debug"
+	Email                Flag = "email"
+	ExcludeFileExtension Flag = "exclude-file-extension"
+	Host                 Flag = "host"
+	Name                 Flag = "name"
+	OutFile              Flag = "out-file"
+	Show                 Flag = "show"
+	SourceDir            Flag = "source-dir"
+	SshKey               Flag = "ssh-key"
+	Username             Flag = "username"
+	Val                  Flag = "val"
+	Workspace            Flag = "workspace"
 )
 
 func HandleFlagErrAndVal(err error, flag Flag, flagVal string) {
