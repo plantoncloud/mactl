@@ -42,6 +42,7 @@ func init() {
 		root.EnvVar,
 		root.Git,
 		root.Keyboard,
+		root.MergeFiles,
 		root.Optimize,
 		root.Version,
 		root.Zshrc,
