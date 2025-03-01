@@ -4,6 +4,7 @@ import (
 	"github.com/ghodss/yaml"
 	"github.com/leftbin/go-util/pkg/file"
 	"github.com/pkg/errors"
+	"github.com/plantoncloud/mactl/internal/defaulteditor"
 	"github.com/plantoncloud/mactl/internal/keyboard/keys"
 	_default "github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp/default"
 	"github.com/plantoncloud/mactl/internal/lib/shell"
@@ -30,7 +31,7 @@ func Edit() error {
 	}
 	for {
 		duplicates := make([]string, 0)
-		if err := shell.RunCmd(exec.Command("code", "--wait", configFile)); err != nil {
+		if err := shell.RunCmd(exec.Command(defaulteditor.DefaultEditor, "--wait", configFile)); err != nil {
 			return errors.Wrapf(err, "failed to run command to open cache loc %s in vs code. is vs code installed?", configFile)
 		}
 		appShortcuts, err := List()
