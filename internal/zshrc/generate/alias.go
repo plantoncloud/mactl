@@ -10,7 +10,7 @@ unalias gcp 2>/dev/null
 alias sed=gsed
 alias rsh="source ~/.zshrc"
 alias o="open ."
-alias c="code ."
+alias c="zed ."
 alias zshrc="cat ${HOME}/.zshrc"
 alias h="history | grep -i "
 alias ll="ls -alH "

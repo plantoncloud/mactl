@@ -16,8 +16,8 @@ func Get() string {
 func getAliases() string {
 	return `
 #code
-alias gitcon="code ${HOME}/.gitconfig"
-alias gitignore="code ${HOME}/.gitignore_global"
+alias gitcon="zed ${HOME}/.gitconfig"
+alias gitignore="zed ${HOME}/.gitignore_global"
 #git
 alias gs="git status"
 alias gad="git add --all"

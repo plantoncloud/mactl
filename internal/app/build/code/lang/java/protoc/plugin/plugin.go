@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	ProtocGenGrpcJavaPluginVersion = "1.45.0"
+	ProtocGenGrpcJavaPluginVersion = "1.65.0"
 	BinaryName                     = "protoc-gen-grpc-java"
 )
 
