@@ -47,6 +47,14 @@ local: build
 	sudo cp ./${build_dir}/${name}-darwin /usr/local/bin/${name_local}
 	sudo chmod +x /usr/local/bin/${name_local}
 
-release: build
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-amd64 gs://mactl/${version}/mactl-${version}-amd64
-	gsutil -h "Cache-Control:no-cache" cp build/mactl-darwin-arm64 gs://mactl/${version}/mactl-${version}-arm64
+.PHONY: release-github
+release-github:
+	git tag ${version}
+	git push origin ${version}
+	gh release create ${version} \
+		 --generate-notes \
+         --title ${version} \
+         build/mactl-darwin-amd64 \
+         build/mactl-darwin-arm64
+
+release: build release-github
