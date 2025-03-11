@@ -9,7 +9,6 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
 	"github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java"
-	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/app/build/network/dns/dnsmasq"
 	"github.com/plantoncloud/mactl/internal/app/build/scm/battenberg"
 	"github.com/plantoncloud/mactl/internal/app/build/scm/github"
@@ -34,7 +33,6 @@ const (
 	battenbergApp         App = "battenberg"
 	chromeApp             App = "chrome"
 	dnsmasqApp            App = "dnsmasq"
-	dockerApp             App = "docker"
 	flycutApp             App = "flycut"
 	gcloudApp             App = "gcloud"
 	githubApp             App = "github"
@@ -61,7 +59,6 @@ func Get(app string) App {
 		"battenberg",
 		"chrome",
 		"dnsmasq",
-		"docker",
 		"flycut",
 		"gcloud",
 		"github",
@@ -94,7 +91,6 @@ func PrintList() {
 		battenbergApp,
 		chromeApp,
 		dnsmasqApp,
-		dockerApp,
 		flycutApp,
 		gcloudApp,
 		githubApp,
@@ -126,8 +122,6 @@ func Add(app App) error {
 		return bartender.Setup()
 	case chromeApp:
 		return chrome.Setup()
-	case dockerApp:
-		return docker.Setup()
 	case flycutApp:
 		return flycut.Setup()
 	case gcloudApp:

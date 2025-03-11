@@ -5,7 +5,6 @@ import (
 	"github.com/leftbin/go-util/pkg/file"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java/androidstudio"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java/intellij"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java/protoc/plugin"
 	"github.com/plantoncloud/mactl/internal/installer/brew"
@@ -100,11 +99,7 @@ func ensureIdes() error {
 		return errors.Wrapf(err, "failed to ensure intellij")
 	}
 	log.Infof("ensured intellij")
-	log.Infof("ensuring android-studio")
-	if err := androidstudio.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure android-studio")
-	}
-	log.Infof("ensured android-studio")
+
 	return nil
 }
 

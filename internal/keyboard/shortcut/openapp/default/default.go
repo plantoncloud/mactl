@@ -2,7 +2,6 @@ package _default
 
 import (
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
-	"github.com/plantoncloud/mactl/internal/app/build/api/grpc/client/wombat"
 	"github.com/plantoncloud/mactl/internal/app/build/api/rest/client/postman"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/golang/goland"
 	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java/intellij"
@@ -14,8 +13,6 @@ import (
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
 	"github.com/plantoncloud/mactl/internal/app/build/ux/figma"
 	"github.com/plantoncloud/mactl/internal/app/comm/slack"
-	"github.com/plantoncloud/mactl/internal/app/comm/telegram"
-	"github.com/plantoncloud/mactl/internal/app/comm/whatsapp"
 	"github.com/plantoncloud/mactl/internal/app/mac/builtin/activitymonitor"
 	"github.com/plantoncloud/mactl/internal/app/mac/builtin/calendar"
 	"github.com/plantoncloud/mactl/internal/app/mac/builtin/finder"
@@ -88,14 +85,6 @@ var DefaultShortcuts = []*keys.AppShortcut{
 		Key:         keys.Q,
 		AppFilePath: figma.GetPath(),
 	}, {
-		AppName:     whatsapp.AppName,
-		Key:         keys.Z,
-		AppFilePath: whatsapp.GetPath(),
-	}, {
-		AppName:     telegram.AppName,
-		Key:         keys.X,
-		AppFilePath: telegram.GetPath(),
-	}, {
 		AppName:     syspref.AppName,
 		Key:         keys.NumberOne,
 		AppFilePath: syspref.GetPath(),
@@ -103,10 +92,6 @@ var DefaultShortcuts = []*keys.AppShortcut{
 		AppName:     calendar.AppName,
 		Key:         keys.NumberTwo,
 		AppFilePath: calendar.GetPath(),
-	}, {
-		AppName:     wombat.AppName,
-		Key:         keys.NumberThree,
-		AppFilePath: wombat.GetPath(),
 	}, {
 		AppName:     activitymonitor.AppName,
 		Key:         keys.NumberNine,

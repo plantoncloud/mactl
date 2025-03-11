@@ -4,3 +4,4 @@ tmp
 build
 !internal/app/build
 !internal/bundle/build
+.DS_Store
