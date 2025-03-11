@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
-	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
 	"github.com/plantoncloud/mactl/internal/app/build/terminal/warp"
 	"github.com/plantoncloud/mactl/internal/app/installer/mas"
@@ -164,11 +163,6 @@ func open(fatalErrors chan error) error {
 		fatalErrors <- errors.Wrap(err, "failed to open flycut")
 	}
 	log.Infof("opened flycut")
-	log.Infof("opening docker-desktop")
-	if err := docker.Open(); err != nil {
-		fatalErrors <- errors.Wrap(err, "failed to open docker-desktop")
-	}
-	log.Infof("opened docker-desktop")
 	log.Infof("opening google-chrome")
 	if err := chrome.Open(); err != nil {
 		fatalErrors <- errors.Wrap(err, "failed to open google-chrome")

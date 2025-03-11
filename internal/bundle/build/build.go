@@ -2,7 +2,6 @@ package build
 
 import (
 	"github.com/pkg/errors"
-	"github.com/plantoncloud/mactl/internal/app/build/docker"
 	"github.com/plantoncloud/mactl/internal/bundle/build/api"
 	"github.com/plantoncloud/mactl/internal/bundle/build/auth"
 	"github.com/plantoncloud/mactl/internal/bundle/build/cloud"
@@ -64,11 +63,6 @@ func Setup() error {
 		return errors.Wrap(err, "failed to ensure database bundle")
 	}
 	log.Info("ensured database bundle")
-	log.Info("ensuring docker")
-	if err := docker.Setup(); err != nil {
-		return errors.Wrap(err, "failed to ensure docker")
-	}
-	log.Info("ensured docker")
 	log.Info("ensuring network bundle")
 	if err := network.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure network bundle")
@@ -137,11 +131,5 @@ func Upgrade() error {
 		return errors.Wrap(err, "failed to upgrade editor bundle")
 	}
 	log.Info("upgraded editor bundle")
-
-	log.Info("upgrading docker")
-	if err := docker.Upgrade(); err != nil {
-		return errors.Wrap(err, "failed to upgrade docker")
-	}
-	log.Info("upgraded docker")
 	return nil
 }
