@@ -18,15 +18,15 @@ func Get() string {
 
 func getEnvVars() string {
 	return `
-export KUBE_EDITOR='zed --wait'
+export KUBE_EDITOR='code --wait'
 export PATH="${PATH}:${HOME}/.krew/bin"
 `
 }
 
 func getAliases() string {
 	return `
-alias kf="zed ${HOME}/.kube"
-alias kcon="zed ${HOME}/.kube/config"
+alias kf="code ${HOME}/.kube"
+alias kcon="code ${HOME}/.kube/config"
 alias g="kubectl get "
 alias gy="kubectl get -o yaml "
 alias gd="kubectl get deployments "

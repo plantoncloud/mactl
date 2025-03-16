@@ -7,7 +7,7 @@ func Get() string {
 func getAliases() string {
 	return `
 alias sshf="ci ${HOME}/.ssh"
-alias sshfc="zed ${HOME}/.ssh"
-alias sshcon="zed ${HOME}/.ssh/config"
+alias sshfc="code ${HOME}/.ssh"
+alias sshcon="code ${HOME}/.ssh/config"
 `
 }
