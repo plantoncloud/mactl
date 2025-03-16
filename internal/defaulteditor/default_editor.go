@@ -1,3 +1,3 @@
 package defaulteditor
 
-const DefaultEditor = "zed"
+const DefaultEditor = "code"
