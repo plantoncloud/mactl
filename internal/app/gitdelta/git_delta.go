@@ -1,5 +1,5 @@
 // Package delta installs https://github.com/dandavison/delta
-package delta
+package gitdelta
 
 import (
 	"github.com/pkg/errors"

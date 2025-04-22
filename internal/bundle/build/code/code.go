@@ -10,7 +10,7 @@ import (
 
 func Setup() error {
 	log.Info("ensuring git tools")
-	if err := delta.Setup(); err != nil {
+	if err := gitdelta.Setup(); err != nil {
 		return errors.Wrap(err, "failed to ensure git-delta")
 	}
 	log.Info("ensured git tools")
