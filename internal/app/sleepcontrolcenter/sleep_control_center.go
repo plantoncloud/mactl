@@ -1,10 +1,10 @@
-package sleep_control_center
+package sleepcontrolcenter
 
 import (
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
 	"github.com/plantoncloud/mactl/internal/installer/macapp"
 	"github.com/plantoncloud/mactl/internal/installer/mas"
+	log "github.com/sirupsen/logrus"
 )
 
 const (

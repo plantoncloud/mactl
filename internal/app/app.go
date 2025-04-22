@@ -4,26 +4,24 @@ import (
 	"github.com/jedib0t/go-pretty/v6/table"
 	lbnutil "github.com/leftbin/go-util/pkg/table"
 	"github.com/pkg/errors"
-	"github.com/plantoncloud/mactl/internal/app/audio/krisp"
-	"github.com/plantoncloud/mactl/internal/app/audio/shush"
-	"github.com/plantoncloud/mactl/internal/app/browser/chrome"
-	"github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud"
-	"github.com/plantoncloud/mactl/internal/app/build/code/lang/java"
-	"github.com/plantoncloud/mactl/internal/app/build/network/dns/dnsmasq"
-	"github.com/plantoncloud/mactl/internal/app/build/scm/battenberg"
-	"github.com/plantoncloud/mactl/internal/app/build/scm/github"
-	"github.com/plantoncloud/mactl/internal/app/build/scm/gitr"
-	"github.com/plantoncloud/mactl/internal/app/build/terminal/iterm"
-	"github.com/plantoncloud/mactl/internal/app/installer/mas"
-	"github.com/plantoncloud/mactl/internal/app/keyboard/karabiner"
-	"github.com/plantoncloud/mactl/internal/app/keyboard/rectangle"
-	"github.com/plantoncloud/mactl/internal/app/network/telnet"
-	"github.com/plantoncloud/mactl/internal/app/tidy/menubar/bartender"
-	"github.com/plantoncloud/mactl/internal/app/tidy/menubar/toothfairy"
-	"github.com/plantoncloud/mactl/internal/app/tool/flycut"
-	"github.com/plantoncloud/mactl/internal/app/tool/mactl"
-	"github.com/plantoncloud/mactl/internal/app/tool/sleep_control_center"
-	"github.com/plantoncloud/mactl/internal/app/tool/snagit"
+	"github.com/plantoncloud/mactl/internal/app/bartender"
+	"github.com/plantoncloud/mactl/internal/app/battenberg"
+	"github.com/plantoncloud/mactl/internal/app/chrome"
+	"github.com/plantoncloud/mactl/internal/app/dnsmasq"
+	"github.com/plantoncloud/mactl/internal/app/flycut"
+	"github.com/plantoncloud/mactl/internal/app/gcloud"
+	"github.com/plantoncloud/mactl/internal/app/github"
+	"github.com/plantoncloud/mactl/internal/app/gitr"
+	"github.com/plantoncloud/mactl/internal/app/iterm"
+	"github.com/plantoncloud/mactl/internal/app/karabiner"
+	"github.com/plantoncloud/mactl/internal/app/mactl"
+	"github.com/plantoncloud/mactl/internal/app/mas"
+	"github.com/plantoncloud/mactl/internal/app/rectangle"
+	"github.com/plantoncloud/mactl/internal/app/sleepcontrolcenter"
+	"github.com/plantoncloud/mactl/internal/app/snagit"
+	"github.com/plantoncloud/mactl/internal/app/telnet"
+	"github.com/plantoncloud/mactl/internal/app/toothfairy"
+	"github.com/plantoncloud/mactl/internal/build/code/lang/java"
 )
 
 type App string
@@ -140,8 +138,6 @@ func Add(app App) error {
 			return errors.Wrapf(err, "failed to configure karabiner")
 		}
 		return nil
-	case krispApp:
-		return krisp.Setup()
 	case mactlApp:
 		return mactl.Setup()
 	case masApp:
@@ -150,10 +146,8 @@ func Add(app App) error {
 		return telnet.Setup()
 	case rectangleApp:
 		return rectangle.Setup()
-	case shushApp:
-		return shush.Setup()
 	case sleepControlCenterApp:
-		return sleep_control_center.Setup()
+		return sleepcontrolcenter.Setup()
 	case snagitApp:
 		return snagit.Setup()
 	case toothFairyApp:

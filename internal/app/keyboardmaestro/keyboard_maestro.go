@@ -1,4 +1,4 @@
-package maestro
+package keyboardmaestro
 
 import (
 	"github.com/pkg/errors"

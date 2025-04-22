@@ -2,14 +2,8 @@ package generate
 
 import (
 	"github.com/pkg/errors"
-	gcloud "github.com/plantoncloud/mactl/internal/app/build/cloud/gcloud/zshrc"
-	golang "github.com/plantoncloud/mactl/internal/app/build/code/lang/golang/zshrc"
-	java "github.com/plantoncloud/mactl/internal/app/build/code/lang/java/zshrc"
-	nodejs "github.com/plantoncloud/mactl/internal/app/build/code/lang/javascript/nodejs/zshrc"
-	python "github.com/plantoncloud/mactl/internal/app/build/code/lang/python/zshrc"
-	terraform "github.com/plantoncloud/mactl/internal/app/build/iac/terraform/zshrc"
-	kubectl "github.com/plantoncloud/mactl/internal/app/build/kubernetes/kubectl/zshrc"
-	gitr "github.com/plantoncloud/mactl/internal/app/build/scm/gitr/zshrc"
+	"github.com/plantoncloud/mactl/internal/app/gcloud"
+	"github.com/plantoncloud/mactl/internal/app/gitr"
 	ssh "github.com/plantoncloud/mactl/internal/git/ssh/zshrc"
 	git "github.com/plantoncloud/mactl/internal/git/zshrc"
 	brew "github.com/plantoncloud/mactl/internal/installer/brew/zshrc"

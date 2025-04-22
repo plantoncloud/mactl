@@ -38,10 +38,8 @@ func init() {
 	rootCmd.AddCommand(
 		root.App,
 		root.Bootstrap,
-		root.Bundle,
 		root.EnvVar,
 		root.Git,
-		root.Keyboard,
 		root.MergeFiles,
 		root.Optimize,
 		root.Version,
