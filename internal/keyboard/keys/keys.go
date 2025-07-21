@@ -9,6 +9,18 @@ type AppShortcut struct {
 }
 
 const (
+	F1          KeyBoardKey = "f1"
+	F2          KeyBoardKey = "f2"
+	F3          KeyBoardKey = "f3"
+	F4          KeyBoardKey = "f4"
+	F5          KeyBoardKey = "f5"
+	F6          KeyBoardKey = "f6"
+	F7          KeyBoardKey = "f7"
+	F8          KeyBoardKey = "f8"
+	F9          KeyBoardKey = "f9"
+	F10         KeyBoardKey = "f10"
+	F11         KeyBoardKey = "f11"
+	F12         KeyBoardKey = "f12"
 	A           KeyBoardKey = "a"
 	B           KeyBoardKey = "b"
 	C           KeyBoardKey = "c"
