@@ -35,18 +35,18 @@ func init() {
 			}
 		}
 	})
-	rootCmd.AddCommand(
-		root.App,
-		root.Bootstrap,
-		root.Bundle,
-		root.EnvVar,
-		root.Git,
-		root.Keyboard,
-		root.MergeFiles,
-		root.Optimize,
-		root.Version,
-		root.Zshrc,
-	)
+    rootCmd.AddCommand(
+        root.App,
+        root.Bootstrap,
+        root.Bundle,
+        root.EnvVar,
+        root.Git,
+        // Keyboard shortcuts moved to karayaml; command removed from mactl
+        root.MergeFiles,
+        root.Optimize,
+        root.Version,
+        root.Zshrc,
+    )
 }
 
 func Execute() {

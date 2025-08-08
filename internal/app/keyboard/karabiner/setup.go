@@ -3,9 +3,8 @@ package karabiner
 import (
 	"github.com/pkg/errors"
 	karabinerconfig "github.com/plantoncloud/mactl/internal/app/keyboard/karabiner/config"
-	"github.com/plantoncloud/mactl/internal/installer/brew"
-	"github.com/plantoncloud/mactl/internal/installer/macapp"
-	"github.com/plantoncloud/mactl/internal/keyboard/shortcut/openapp"
+    "github.com/plantoncloud/mactl/internal/installer/brew"
+    "github.com/plantoncloud/mactl/internal/installer/macapp"
 )
 
 const (
@@ -37,9 +36,6 @@ func Open() error {
 func Configure() error {
 	if err := karabinerconfig.Setup(); err != nil {
 		return errors.Wrapf(err, "failed to configure karabiner")
-	}
-	if err := openapp.Initialize(); err != nil {
-		return errors.Wrapf(err, "failed to add config to create hotkey shortcuts to open apps")
 	}
 	return nil
 }
